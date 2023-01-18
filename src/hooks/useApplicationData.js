@@ -50,4 +50,29 @@ export function useApplicationData(){
     })
 
   }
+  
+  const cancelInterview = (id) => {
+    return axios.delete(`/api/appointments/${id}`)
+    .then(() => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      const days = updateSpots();
+      setState({
+        ...state,
+        appointments,
+        days
+      });
+
+
+    })
+
+  }
+
+ return { state, setDay, bookInterview, cancelInterview }
 }
