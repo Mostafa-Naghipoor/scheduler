@@ -29,4 +29,25 @@ export function useApplicationData(){
           interviewers: all[2].data}));
       });
   }, [])
+  const bookInterview = (id, interview, requestType) => {
+    
+    return axios.put(`/api/appointments/${id}`, {interview})
+    .then(() => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      const days = updateSpots(requestType)
+      setState({
+        ...state,
+        appointments,
+        days
+      });
+    })
+
+  }
 }
