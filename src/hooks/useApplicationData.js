@@ -29,6 +29,21 @@ export function useApplicationData(){
           interviewers: all[2].data}));
       });
   }, [])
+
+
+  const updateSpots = (requestType) => {
+    const dayIndex = state.days.findIndex(day => day.name === state.day);
+    const days = state.days;
+    if (requestType === "create") {
+      days[dayIndex].spots -= 1
+    } else if(requestType === "edit"){
+      days[dayIndex].spots = days[dayIndex].spots
+    } else {
+      days[dayIndex].spots += 1
+    }
+    return days;
+  }
+
   const bookInterview = (id, interview, requestType) => {
     
     return axios.put(`/api/appointments/${id}`, {interview})
@@ -50,7 +65,7 @@ export function useApplicationData(){
     })
 
   }
-  
+
   const cancelInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`)
     .then(() => {
